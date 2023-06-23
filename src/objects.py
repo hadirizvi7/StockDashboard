@@ -63,16 +63,17 @@ class Position:
             return output
         return ""
 
-class Balance:
+class ProfitLossItem:
     def __init__(self) -> None:
         pass
 
     def __str__(self) -> str:
         return ""
 
-class ProfitLossItem:
-    def __init__(self) -> None:
-        pass
+class Balance:
+    def __init__(self, amount: float, currency: str) -> None:
+        self.amount = amount
+        self.currency = currency
 
     def __str__(self) -> str:
         return ""

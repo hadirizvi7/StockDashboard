@@ -8,17 +8,27 @@ from rich.layout import Layout
 from configparser import ConfigParser
 from data_pull import data_pull
 from objects import WatchListItem, Position
-from generateOutput import printWatchListToConsole, printPositionsToConsole
+from generateOutput import printWatchListToConsole, printPositionsToConsole, printBalanceToConsole
 
-config_object = ConfigParser()
-config_object.read("/Users/hadi/Desktop/Projects/StockDashboard/src/settings.cfg")
-watchListData = list(dict(config_object.items('watchlist')).keys())
-watchList = [item.upper() for item in watchListData]
-positions = dict(config_object.items('positions'))
-console = Console()
+def configure():
+    CONFIG_PATH = "/Users/hadi/Desktop/Projects/StockDashboard/src/settings.cfg"
+    config_object = ConfigParser()
+    config_object.read(CONFIG_PATH)
 
-printWatchListToConsole(watchList)
-printPositionsToConsole(positions)
+    watchListData = list(dict(config_object.items('watchlist')).keys())
+    watchList = [item.upper() for item in watchListData]
+
+    positions = dict(config_object.items('positions'))
+    balance = dict(config_object.items('cash'))
+
+    return watchList, positions, balance
+
+if __name__ == "__main__":
+    watchList, positions, balance = configure()
+    printWatchListToConsole(watchList)
+    printPositionsToConsole(positions)
+    printBalanceToConsole(balance)
+
 #layout = Layout()
 '''
 layout.split_column(
