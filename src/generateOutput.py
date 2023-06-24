@@ -1,7 +1,7 @@
 from data_pull import data_pull
 import rich, sys
 from rich.console import Console
-from objects import WatchListItem, Position
+from objects import WatchListItem, Position, Balance
 console = Console()
 
 def printWatchListToConsole(watchList: list):
@@ -37,23 +37,9 @@ def printPositionsToConsole(positions: dict):
 def printBalanceToConsole(cashHoldings: dict):
     console.print("\nBALANCES", style = "white")
     for currency, value in cashHoldings.items():
-        output = []
-        stack = []
-        formattedValue = value
-        if len(value) > 3 and "," not in value:
-            for digit in reversed(list(value)):
-                stack.append(digit)
-                if len(stack) == 3:
-                    stack.append(",")
-                    output.append(stack)
-                    stack = []
-            output.append(stack)
-            formattedValue = ""
-            for item in reversed(output):
-                formattedValue += "".join(list(reversed(item)))
-        
-        console.print("{value}.00 {currency}".format(
-            currency = currency.upper(),
-            value = formattedValue
-        ),
-        style="white")
+        obj = Balance(value, currency)
+        output = str(obj)
+        console.print(
+            output, 
+            style="white"
+        )

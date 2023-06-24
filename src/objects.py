@@ -8,7 +8,7 @@ class WatchListItem:
         self.change = response['regularMarketChange']['fmt']
     
     def __str__(self):
-        return "{name} {price} {cap} {volume} {change} {changePercent}".format(
+        return "{name} @ {price} {cap} {volume} {change} {changePercent}".format(
             name = self.name, 
             price = self.price,
             cap = self.cap,
@@ -16,27 +16,7 @@ class WatchListItem:
             changePercent = self.changePercent,
             change = self.change
         )
-'''
-currentPrice = float(response['regularMarketPrice']['raw']) * float(numShares)
-        self.openPrice = float(response['regularMarketOpen']['raw']) * float(numShares)
-        diff = float("{:.2f}".format(currentPrice - openPrice))
-        if diff >= 0:
-            percentChange = float("{:.2f}".format((currentPrice/openPrice) * 100 - 100))
-            output = "{ticker} +{diff} +{percentChange}%".format(
-                ticker = ticker,
-                diff = diff,
-                percentChange = percentChange
-            )
-            console.print(output, style = "bold green")
-        else:
-            percentChange = float("{:.2f}".format((openPrice/currentPrice) * 100 - 100))
-            output = "{ticker} {diff} -{percentChange}%".format(
-                ticker = ticker,
-                diff = diff,
-                percentChange = percentChange
-            )
-            console.print(output, style = "bold red")
-'''
+
 class Position:
     def __init__(self, ticker: str, response: dict, numShares: float) -> None:
         self.name = ticker
@@ -61,7 +41,7 @@ class Position:
                 percentChange = percentChange
             )
             return output
-        return ""
+        
 
 class ProfitLossItem:
     def __init__(self) -> None:
@@ -71,9 +51,27 @@ class ProfitLossItem:
         return ""
 
 class Balance:
-    def __init__(self, amount: float, currency: str) -> None:
+    def __init__(self, amount: str, currency: str) -> None:
         self.amount = amount
         self.currency = currency
 
     def __str__(self) -> str:
-        return ""
+        output = []
+        stack = []
+        formattedValue = self.amount
+        if len(self.amount) > 3 and "," not in self.amount:
+            for digit in reversed(list(self.amount)):
+                stack.append(digit)
+                if len(stack) == 3:
+                    stack.append(",")
+                    output.append(stack)
+                    stack = []
+            output.append(stack)
+            formattedValue = ""
+            for item in reversed(output):
+                formattedValue += "".join(list(reversed(item)))
+        
+        return "{value}.00 {currency}".format(
+            currency = self.currency.upper(),
+            value = formattedValue
+        )

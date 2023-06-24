@@ -1,5 +1,5 @@
 import requests
-from config import RAPID_API_KEY, RAPID_API_HOST
+from config_files.config import RAPID_API_KEY, RAPID_API_HOST
 
 def data_pull(ticker):
     url = "https://yahoo-finance127.p.rapidapi.com/price/{}".format(ticker)
