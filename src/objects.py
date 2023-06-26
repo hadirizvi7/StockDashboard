@@ -43,12 +43,21 @@ class Position:
             return output
         
 
-class ProfitLossItem:
-    def __init__(self) -> None:
-        pass
+class Trend:
+    def __init__(self, ticker, response) -> None:
+        self.name = ticker
+        self.price = response['regularMarketPrice']['fmt']
+        self.change = response['regularMarketChange']['fmt']
+        self.changePercent = response['regularMarketChangePercent']['fmt']
+
 
     def __str__(self) -> str:
-        return ""
+        return "{name} {price} {change} {changePercent}".format(
+            name = self.name,
+            price = self.price,
+            change = self.change,
+            changePercent = self.changePercent
+        )
 
 class Balance:
     def __init__(self, amount: str, currency: str) -> None:

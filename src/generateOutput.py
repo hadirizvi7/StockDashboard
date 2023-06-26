@@ -1,8 +1,24 @@
-from data_pull import data_pull
+from data_pull import data_pull, get_trend
 import rich, sys
 from rich.console import Console
-from objects import WatchListItem, Position, Balance
+from objects import WatchListItem, Position, Balance, Trend
+from rich import print
 console = Console()
+
+def printTrendToConsole():
+    console.print("\nMARKET TREND", style = "white")
+    trendList = ['^GSPC','^DJI','^IXIC']
+    for ticker in trendList:
+        response = data_pull(ticker)
+
+        obj = Trend(ticker, response)
+        output = str(obj)
+
+        if float(output.split()[3][:-1]) >= 0:
+            console.print(output, style = "bold green")
+        else:
+            console.print(output, style = "bold red")
+
 
 def printWatchListToConsole(watchList: list):
     console.print("\nWATCHLIST", style = "white")

@@ -1,14 +1,11 @@
 from tkinter.ttk import Style
-import rich, sys
 from rich.console import Console
 from rich.table import Table
 from rich.theme import Theme
 from rich import print
 from rich.layout import Layout
 from configparser import ConfigParser
-from data_pull import data_pull
-from objects import WatchListItem, Position
-from generateOutput import printWatchListToConsole, printPositionsToConsole, printBalanceToConsole
+from generateOutput import printWatchListToConsole, printPositionsToConsole, printBalanceToConsole, printTrendToConsole
 
 def configure():
     CONFIG_PATH = "/Users/hadi/Desktop/Projects/StockDashboard/src/config_files/sample.cfg"
@@ -25,6 +22,7 @@ def configure():
 
 if __name__ == "__main__":
     watchList, positions, balance = configure()
+    printTrendToConsole()
     printWatchListToConsole(watchList)
     printPositionsToConsole(positions)
     printBalanceToConsole(balance)
