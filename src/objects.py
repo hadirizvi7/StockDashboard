@@ -8,7 +8,7 @@ class WatchListItem:
         self.change = response['regularMarketChange']['fmt']
     
     def __str__(self):
-        return "{name} @ {price} {cap} {volume} {change} {changePercent}".format(
+        return "{name} @ ${price} {cap} {volume} {change} {changePercent}".format(
             name = self.name, 
             price = self.price,
             cap = self.cap,
@@ -27,7 +27,7 @@ class Position:
         diff = float("{:.2f}".format(self.currentPrice - self.openPrice))
         if diff >= 0:
             percentChange = float("{:.2f}".format((self.currentPrice/self.openPrice) * 100 - 100))
-            output = "{ticker} +{diff} +{percentChange}%".format(
+            output = "{ticker} +${diff} +{percentChange}%".format(
                 ticker = self.name,
                 diff = diff,
                 percentChange = percentChange
@@ -35,25 +35,25 @@ class Position:
             return output
         else:
             percentChange = float("{:.2f}".format((self.openPrice/self.currentPrice) * 100 - 100))
-            output = "{ticker} {diff} -{percentChange}%".format(
+            output = "{ticker} ${diff} -{percentChange}%".format(
                 ticker = self.name,
                 diff = diff,
                 percentChange = percentChange
             )
             return output
-        
 
 class Trend:
-    def __init__(self, ticker, response) -> None:
+    def __init__(self, ticker, response, displayName) -> None:
         self.name = ticker
         self.price = response['regularMarketPrice']['fmt']
         self.change = response['regularMarketChange']['fmt']
         self.changePercent = response['regularMarketChangePercent']['fmt']
+        self.displayName = displayName
 
 
     def __str__(self) -> str:
-        return "{name} {price} {change} {changePercent}".format(
-            name = self.name,
+        return "{name} ${price} {change} {changePercent}".format(
+            name = self.displayName,
             price = self.price,
             change = self.change,
             changePercent = self.changePercent

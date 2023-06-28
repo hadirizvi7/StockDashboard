@@ -1,5 +1,4 @@
-from data_pull import data_pull, get_trend
-import rich, sys
+from api import data_pull
 from rich.console import Console
 from objects import WatchListItem, Position, Balance, Trend
 from rich import print
@@ -7,11 +6,16 @@ console = Console()
 
 def printTrendToConsole():
     console.print("\nMARKET TREND", style = "white")
-    trendList = ['^GSPC','^DJI','^IXIC']
-    for ticker in trendList:
+    trendMap = {
+        '^GSPC': 'S&P500', 
+        '^DJI' : 'DOWJONES', 
+        '^IXIC': 'NASDAQ'
+        }
+
+    for ticker, displayName in trendMap.items():
         response = data_pull(ticker)
 
-        obj = Trend(ticker, response)
+        obj = Trend(ticker, response, displayName)
         output = str(obj)
 
         if float(output.split()[3][:-1]) >= 0:
